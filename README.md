@@ -98,6 +98,17 @@ It will open a GDB run of the main video parser library. Type `run` and check if
 
 To further add new codecs or measures, please see [development.md](./development.md).
 
+## Docker
+
+```
+docker build -t bitstream .
+```
+
+```
+$ docker run -v /local/path:/media -it bitstream
+# /opt/bitstream/parser.sh /media/test.mp4
+```
+
 
 ## Authors
 

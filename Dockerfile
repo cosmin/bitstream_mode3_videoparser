@@ -39,14 +39,22 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN pip3 install --upgrade pip
 RUN pip3 install pandas
 
-WORKDIR /opt/sources
+WORKDIR /opt/bitstream
 ADD ffmpeg ffmpeg/
 ADD PythonInterface PythonInterface/
 ADD VideoParser VideoParser/
 
-WORKDIR /opt/sources/ffmpeg
+WORKDIR /opt/bitstream/ffmpeg
+RUN ./configure_ffmpeg.sh
 RUN make -j $(nproc)
 RUN make install
 
+WORKDIR /opt/bitstream
+ADD TestMain TestMain/
+
+WORKDIR /opt/bitstream/VideoParser/
+RUN scons
+
+ADD parser.sh /opt/bitstream/
 
 WORKDIR /root
